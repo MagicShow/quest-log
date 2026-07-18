@@ -4,7 +4,7 @@ const STORAGE_KEY = 'questlog_state';
 // Default fresh state
 const defaultState = {
   player: {
-    name: 'Hero',
+    name: 'GOATED',
     level: 1,
     xp: 0,
     energy: 100,
