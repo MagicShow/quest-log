@@ -1,12 +1,19 @@
-import { useState, useRef } from 'react'
+import { useRef } from 'react'
 import { useGame } from '../context/GameContext.jsx'
+
+const DIFFICULTY_PROGRESS = { easy: 5, medium: 10, hard: 15, epic: 20 }
 
 export default function QuestCard({ quest }) {
   const { state, dispatch } = useGame()
-  const [showXpAnim, setShowXpAnim] = useState(false)
   const cardRef = useRef(null)
 
   const project = state.projects.find(p => p.id === quest.project)
+  const gw = state.gameWorld || {}
+
+  // Map level to project
+  const projectLevelMap = { 'life-admin': 1, 'home': 2, 'apps': 3, 'self': 4, 'family': 5 }
+  const questLevel = projectLevelMap[quest.project]
+  const isOnCurrentLevel = questLevel === gw.currentLevel
 
   function handleComplete(e) {
     e.stopPropagation()
@@ -24,6 +31,14 @@ export default function QuestCard({ quest }) {
       }
       dispatch({ type: 'COMPLETE_QUEST', id: quest.id })
       dispatch({ type: 'UPDATE_STREAK' })
+      // Update game world position
+      if (isOnCurrentLevel) {
+        const prog = DIFFICULTY_PROGRESS[quest.difficulty] || 10
+        dispatch({
+          type: 'GAME_WORLD_UPDATE',
+          payload: { conanPosition: Math.min(100, (gw.conanPosition || 0) + prog) },
+        })
+      }
     } else {
       dispatch({ type: 'UNCOMPLETE_QUEST', id: quest.id })
     }

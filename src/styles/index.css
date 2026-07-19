@@ -859,3 +859,647 @@ h1, h2, h3, h4 {
   0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
   100% { transform: translateY(100px) rotate(360deg); opacity: 0; }
 }
+
+/* ===== GAME WORLD ===== */
+
+/* Collapsed (header) view */
+.game-world-collapsed {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 24px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.adventure-toggle-btn {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  padding: 6px 14px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.adventure-toggle-btn:hover, .adventure-toggle-btn.active {
+  background: var(--primary-dim);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.level-progress-compact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.level-name-compact {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.level-num-compact {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.progress-bar-compact {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-elevated);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.progress-fill-compact {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 100px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+}
+
+/* Full game world */
+.game-world {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.game-world-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 24px;
+  background: var(--bg-deep);
+  border-bottom: 1px solid var(--border);
+}
+
+.game-world-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  color: var(--primary);
+  flex: 1;
+  text-align: center;
+}
+
+.level-indicator {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--gold);
+  background: var(--gold-dim);
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+
+/* Scene */
+.game-world-scene {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 2px solid var(--border);
+}
+
+.game-world-scroll {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  min-width: 3000px;
+  position: relative;
+  transition: transform 0.6s ease;
+}
+
+/* Terrain */
+.terrain-layer {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  opacity: 0.6;
+}
+
+.path-layer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  opacity: 0.5;
+}
+
+/* Lava glow for cave */
+.lava-glow {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(to top, rgba(255, 100, 0, 0.3), transparent);
+  animation: lavaFlicker 2s ease-in-out infinite;
+}
+
+@keyframes lavaFlicker {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+/* Background elements */
+.bg-swamp { position: absolute; bottom: 40px; left: 0; right: 0; height: 120px; }
+
+.swamp-tree {
+  position: absolute;
+  bottom: 0;
+}
+
+.tree-trunk {
+  width: 8px;
+  height: 30px;
+  background: #4A3020;
+  margin: 0 auto;
+}
+
+.tree-canopy {
+  width: 0;
+  height: 0;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-bottom: 40px solid #2D5A2D;
+  margin-left: -12px;
+}
+
+.bg-forest { position: absolute; bottom: 40px; left: 0; right: 0; height: 120px; }
+
+.forest-tree {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pine-top {
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 60px solid #1A4A2A;
+}
+
+.bg-mountains { position: absolute; bottom: 40px; left: 0; right: 0; height: 160px; }
+
+.mountain-peak {
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(to top right, #5A5A6A, #7A7A8A);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  opacity: 0.5;
+}
+
+.bg-cave-stalactites { position: absolute; top: 0; left: 0; right: 0; height: 100px; }
+
+.stalactite {
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 30px solid #3A2A2A;
+}
+
+.bg-castle { position: absolute; bottom: 40px; left: 0; right: 0; height: 160px; }
+
+.castle-gate {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+}
+
+.castle-wall {
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  right: 20px;
+  height: 80px;
+  background: #3A3A4A;
+}
+
+.castle-tower {
+  position: absolute;
+  bottom: 0;
+  width: 40px;
+  height: 120px;
+  background: #4A4A5A;
+}
+
+.castle-tower.left { left: 0; }
+.castle-tower.right { right: 0; }
+
+/* Enemies */
+.enemy-position {
+  position: absolute;
+  bottom: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  transition: opacity 0.3s;
+}
+
+.enemy-position.enemy-near .enemy-sprite {
+  animation: enemyBounce 0.5s ease-in-out infinite;
+}
+
+@keyframes enemyBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.enemy-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--text-muted);
+  text-align: center;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+
+.enemy-sprite.defeated { opacity: 0.2; filter: grayscale(1); }
+.enemy-sprite.fighting { animation: enemyShake 0.3s ease-in-out infinite; }
+
+@keyframes enemyShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.enemy-fight-ring {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  animation: fightRing 0.8s ease-out infinite;
+}
+
+@keyframes fightRing {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* Portal */
+.level-end {
+  position: absolute;
+  bottom: 40px;
+  z-index: 5;
+}
+
+.portal {
+  position: relative;
+  width: 60px;
+  height: 80px;
+}
+
+.portal-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 3px solid;
+}
+
+.portal-ring.outer {
+  width: 60px;
+  height: 60px;
+  top: 10px;
+  left: 0;
+  border-color: #8844FF;
+  animation: portalSpin 3s linear infinite;
+}
+
+.portal-ring.inner {
+  width: 40px;
+  height: 40px;
+  top: 20px;
+  left: 10px;
+  border-color: #AA66FF;
+  animation: portalSpin 2s linear infinite reverse;
+}
+
+.portal-core {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 28px;
+  left: 18px;
+  background: radial-gradient(circle, #DD88FF, #8844FF);
+  border-radius: 50%;
+  animation: portalPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes portalSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes portalPulse {
+  0%, 100% { box-shadow: 0 0 10px #8844FF; }
+  50% { box-shadow: 0 0 30px #DD88FF, 0 0 50px #8844FF; }
+}
+
+/* Conan in world */
+.conan-world-position {
+  position: absolute;
+  bottom: 40px;
+  z-index: 20;
+  transition: left 0.6s ease;
+}
+
+/* Conan sprite animations */
+.conan-wrapper {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  transition: transform 0.3s;
+}
+
+/* Idle breathing */
+@keyframes conanIdle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+.conan-idle .conan-sprite {
+  animation: conanIdle 2s ease-in-out infinite;
+}
+
+/* Walking */
+@keyframes conanWalk {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-4px) rotate(-3deg); }
+  75% { transform: translateY(-4px) rotate(3deg); }
+}
+
+.conan-walking .conan-sprite {
+  animation: conanWalk 0.3s ease-in-out infinite;
+}
+
+/* Attacking */
+@keyframes conanAttack {
+  0% { transform: rotate(0deg) translateX(0); }
+  30% { transform: rotate(20deg) translateX(10px); }
+  60% { transform: rotate(-10deg) translateX(-5px); }
+  100% { transform: rotate(0deg) translateX(0); }
+}
+
+.conan-attacking .conan-sprite {
+  animation: conanAttack 0.5s ease-in-out;
+}
+
+/* Victory */
+@keyframes conanVictory {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.conan-victory .conan-sprite {
+  animation: conanVictory 0.5s ease-in-out infinite;
+}
+
+/* Level up */
+@keyframes conanLevelUp {
+  0% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.2); filter: brightness(2) drop-shadow(0 0 20px var(--gold)); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+.conan-levelup .conan-sprite {
+  animation: conanLevelUp 0.8s ease-in-out;
+}
+
+/* Direction */
+.conan-dir-left .conan-sprite {
+  transform: scaleX(-1);
+}
+
+/* Attack effect */
+.conan-attack-effect {
+  position: absolute;
+  top: 0;
+  left: 40px;
+  animation: slashFade 0.5s ease-out forwards;
+}
+
+@keyframes slashFade {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+
+.conan-levelup-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, var(--gold), transparent);
+  border-radius: 50%;
+  animation: levelUpGlow 0.8s ease-out forwards;
+  z-index: -1;
+}
+
+@keyframes levelUpGlow {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+}
+
+/* World progress bar */
+.world-progress-bar {
+  padding: 10px 24px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.world-progress-label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.world-progress-track {
+  position: relative;
+  height: 8px;
+  background: var(--bg-elevated);
+  border-radius: 100px;
+  overflow: visible;
+}
+
+.world-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 100px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+}
+
+.world-conan-marker {
+  position: absolute;
+  top: -4px;
+  width: 16px;
+  height: 16px;
+  background: var(--gold);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 8px var(--gold);
+  transition: left 0.5s ease;
+  z-index: 5;
+}
+
+.enemy-marker {
+  position: absolute;
+  top: -3px;
+  width: 14px;
+  height: 14px;
+  background: var(--danger);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  opacity: 0.7;
+  transition: all 0.3s;
+  z-index: 4;
+}
+
+.enemy-marker.defeated {
+  background: var(--text-muted);
+  opacity: 0.3;
+}
+
+.world-progress-stats {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* Level banner overlay */
+.level-banner-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+  animation: overlayIn 0.3s ease;
+}
+
+.level-banner {
+  background: var(--bg-surface);
+  border: 2px solid var(--gold);
+  border-radius: var(--radius-lg);
+  padding: 48px 64px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 0 80px rgba(255, 215, 0, 0.3), 0 0 120px rgba(255, 215, 0, 0.1);
+  animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-width: 500px;
+  width: 90%;
+}
+
+.level-banner-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--gold);
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+  letter-spacing: 0.1em;
+}
+
+.level-banner-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+
+.level-banner-reward {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--gold);
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+  animation: levelGlow 1s ease-in-out infinite;
+}
+
+.level-banner-next {
+  font-size: 0.85rem;
+  color: var(--primary);
+}
+
+.level-banner-btn {
+  margin-top: 8px;
+  padding: 12px 32px;
+  background: var(--gold);
+  color: var(--bg-deep);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.level-banner-btn:hover {
+  box-shadow: 0 0 32px rgba(255, 215, 0, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Game complete */
+.game-complete-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--gold);
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+  animation: levelGlow 1s ease-in-out infinite;
+}
+
+.game-complete-sub {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.game-complete-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  padding: 16px 24px;
+}
+
+.game-complete {
+  background: rgba(0, 0, 0, 0.95);
+}

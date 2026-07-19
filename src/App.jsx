@@ -1,6 +1,7 @@
 import { GameProvider } from './context/GameContext.jsx'
 import Header from './components/Header.jsx'
 import ProjectSidebar from './components/ProjectSidebar.jsx'
+import GameWorld from './components/GameWorld.jsx'
 import QuestBoard from './components/QuestBoard.jsx'
 import RightPanel from './components/RightPanel.jsx'
 import LevelUpModal from './components/LevelUpModal.jsx'
@@ -10,6 +11,7 @@ export default function App() {
     <GameProvider>
       <div className="app">
         <Header />
+        <GameWorld />
         <div className="app-body">
           <ProjectSidebar />
           <QuestBoard />

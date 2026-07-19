@@ -138,6 +138,17 @@ function reducer(state, action) {
         ),
       };
 
+    case 'GAME_WORLD_UPDATE':
+      return {
+        ...state,
+        gameWorld: { ...state.gameWorld, ...action.payload },
+      };
+
+    case 'ADD_XP': {
+      const newXp = state.player.xp + action.payload;
+      return { ...state, player: { ...state.player, xp: newXp } };
+    }
+
     case 'ADD_NIGHT_TIP':
       return {
         ...state,

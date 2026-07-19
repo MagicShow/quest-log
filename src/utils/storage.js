@@ -39,6 +39,14 @@ const defaultState = {
   ],
   dailyStats: {},
   nightAgentTips: [],
+  gameWorld: {
+    currentLevel: 1,
+    conanPosition: 0,
+    levelComplete: false,
+    gameComplete: false,
+    defeatedEnemies: [],
+    currentEnemy: null,
+  },
 };
 
 export function loadState() {
