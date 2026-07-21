@@ -1503,3 +1503,25 @@ h1, h2, h3, h4 {
 .game-complete {
   background: rgba(0, 0, 0, 0.95);
 }
+
+/* ===== RIGHT COLUMN (Party Feed / Panel + Right Panel) ===== */
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ===== PARTY FEED ANIMATIONS ===== */
+@keyframes feedPop {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  60% {
+    transform: translateY(2px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
